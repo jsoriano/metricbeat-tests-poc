@@ -14,6 +14,26 @@ data:
 {{ if option "hints enabled" }}
           hints.enabled: true
 {{ end }}
+{{ if option "redis container template" }}
+          templates:
+            - condition.and:
+                - equals.kubernetes.namespace: {{ namespace }}
+                - equals.kubernetes.container.name: redis
+              config:
+                - module: redis
+                  hosts: ["${data.host}:${data.port}"]
+                  period: 5s
+{{ end }}
+{{ if option "redis pod template" }}
+          templates:
+            - condition.and:
+                - equals.kubernetes.namespace: {{ namespace }}
+                - equals.kubernetes.container.name: redis
+              config:
+                - module: redis
+                  hosts: ["${data.host}:${data.port}"]
+                  period: 5s
+{{ end }}
 
     output.file:
       path: /tmp

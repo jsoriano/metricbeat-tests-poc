@@ -15,3 +15,13 @@ Scenario: Metrics collection configured with hints with named ports
   Given "metricbeat" is running with "hints enabled"
    When "redis" is running with "metrics annotations with named port"
    Then "metricbeat" collects events with "kubernetes.pod.name:redis"
+
+Scenario: Metrics collection configured with templates with container condition and named ports
+  Given "metricbeat" is running with "redis container template"
+   When "redis" is running
+   Then "metricbeat" collects events with "kubernetes.pod.name:redis"
+
+Scenario: Metrics collection configured with templates with pod condition named ports
+  Given "metricbeat" is running with "redis pod template"
+   When "redis" is running
+   Then "metricbeat" collects events with "kubernetes.pod.name:redis"
